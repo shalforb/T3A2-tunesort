@@ -1,5 +1,7 @@
 const https = require('https');
 const querystring = require('querystring');
+const User = require('../models/User');
+const axios = require('axios');
 
 
 const authorizeSpotify = (req, res) => {
@@ -54,5 +56,59 @@ const exchangeCodeForToken = (req, res) => {
     request.end();
 };
 
-module.exports = { authorizeSpotify, exchangeCodeForToken };
+const storeSpotifyTokens = async (req, res) => {
+    const { accessToken, refreshToken, userId } = req.body; // Destructure tokens and userId from the request body
+
+    if (!accessToken || !refreshToken || !userId) {
+        return res.status(400).json({ message: 'Access token, refresh token, and user ID are required' });
+    }
+
+    try {
+        // Find the user by ID and update their tokens
+        const user = await User.findByIdAndUpdate(
+            userId,
+            { accessToken, refreshToken },
+            { new: true } // Return the updated user
+        );
+
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        res.json({ message: 'Tokens stored successfully', user });
+    } catch (error) {
+        console.error('Error storing tokens:', error);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+
+const searchSpotify = async (req, res) => {
+    const { q } = req.query;
+    const authHeader = req.headers.authorization;
+
+    if (!authHeader) {
+        return res.status(401).json({ error: 'No authorization header provided' });
+    }
+
+    const token = authHeader.split(' ')[1]; 
+
+    try {
+        const response = await axios.get('https://api.spotify.com/v1/search', {
+            params: {
+                q: q,
+                type: 'track',
+                limit: 1
+            },
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        res.status(200).json(response.data);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+module.exports = { authorizeSpotify, exchangeCodeForToken, storeSpotifyTokens, searchSpotify };
 

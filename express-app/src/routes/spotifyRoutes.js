@@ -2,11 +2,13 @@ const express = require('express');
 const https = require('https');
 const querystring = require('querystring');
 const router = express.Router();
-const { authorizeSpotify, exchangeCodeForToken } = require('../controllers/spotifyController');
+const { authorizeSpotify, exchangeCodeForToken, storeSpotifyTokens, searchSpotify } = require('../controllers/spotifyController');
 
 
 router.get('/authorize', authorizeSpotify);
 router.get('/auth/spotify', exchangeCodeForToken);
+router.post('/storeTokens', storeSpotifyTokens); 
+router.get('/search', searchSpotify);
 
 module.exports = router;
 

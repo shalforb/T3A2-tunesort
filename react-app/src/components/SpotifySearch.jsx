@@ -1,31 +1,48 @@
 import { useState } from 'react';
 import axios from 'axios';
+import useAddTrack from '../hooks/useAddTrack';
 
-const SpotifySearch = ({ onTrackSelect, accessToken }) => {
+const SpotifySearch = ({ onTrackSelect, playlistId }) => {
     const [query, setQuery] = useState('');
-    const [tracks, setTracks] = useState([]);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
+    const [results, setResults] = useState([]);
+    const { addTrack, loading, error, success } = useAddTrack();
 
-    const searchTracks = async () => {
-        setLoading(true);
-        setError(null);
+    const handleSearch = async () => {
         try {
-            const response = await axios.get('https://api.spotify.com/v1/search', {
-                params: {
-                    q: query,
-                    type: 'track',
-                    limit: 10
-                },
-                headers: {
-                    Authorization: `Bearer ${accessToken}`
-                }
+            const accessToken = localStorage.getItem('spotifyAccessToken');
+            if (!accessToken) {
+                console.error('No access token available');
+                return;
+            }
+    
+            const { data } = await axios.get('http://localhost:5001/spotify/search', {
+                params: { q: query },
+                headers: { 'Authorization': `Bearer ${accessToken}` }
             });
-            setTracks(response.data.tracks.items);
-        } catch (err) {
-            setError(err.message);
-        } finally {
-            setLoading(false);
+    
+            if (!data.tracks || !data.tracks.items) {
+                console.error('Invalid response from API', data);
+                return;
+            }
+    
+            setResults(data.tracks.items);
+    
+        } catch (error) {
+            console.error('Error searching Spotify:', error.message);
+        }
+    };
+
+
+
+    const handleAddTrack = async (track) => {
+        try {
+            const artistName = track.artists.map(artist => artist.name).join(', ');
+            const trackName = track.name;
+            
+            const response = await addTrack(playlistId, artistName, trackName);
+            console.log('Track added to playlist:', response);
+        } catch (error) {
+            console.error('Error adding track to playlist:', error.message);
         }
     };
 
@@ -35,16 +52,14 @@ const SpotifySearch = ({ onTrackSelect, accessToken }) => {
                 type="text"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                placeholder="Search for tracks"
+                placeholder="Search for songs"
             />
-            <button onClick={searchTracks}>Search</button>
-            {loading && <p>Loading...</p>}
-            {error && <p>Error: {error}</p>}
+            <button onClick={handleSearch}>Search</button>
             <ul>
-                {tracks.map((track) => (
+                {results.map((track) => (
                     <li key={track.id}>
                         {track.name} by {track.artists.map(artist => artist.name).join(', ')}
-                        <button onClick={() => onTrackSelect(track)}>Add</button>
+                        <button onClick={() => handleAddTrack(track)}>Add to Playlist</button>
                     </li>
                 ))}
             </ul>

@@ -42,9 +42,9 @@ const PlaylistDetail = () => {
         <div>
             <NavBar />
             <h1 className="text-2xl font-bold">Playlist: {playlist?.name}</h1>
-            {accessToken && (
-                <SpotifySearch onTrackSelect={handleTrackSelect} accessToken={accessToken} />
-            )}
+     
+                <SpotifySearch onTrackSelect={handleTrackSelect} accessToken={accessToken} playlistId={id} />
+            
             <table className="min-w-full mt-4 border-collapse border border-gray-300">
                 <thead>
                     <tr>

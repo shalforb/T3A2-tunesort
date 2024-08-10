@@ -41,6 +41,36 @@ const getPlaylistById = async (req, res) => {
     }
 };
 
+const addTrack = async (req, res) => {
+    const { playlistId, artistName, trackName } = req.body;
+
+    if (!playlistId || !trackName || !artistName) {
+        return res.status(400).json({ message: 'Playlist ID, track name, and artist name are required' });
+    }
+
+    try {
+        const playlist = await Playlist.findById(playlistId);
+
+        if (!playlist) {
+            return res.status(404).json({ message: 'Playlist not found' });
+        }
+
+        // Check if the track is already in the playlist
+        const trackExists = playlist.tracks.some(t => t.name === trackName && t.artist === artistName);
+
+        if (!trackExists) {
+            playlist.tracks.push({ name: trackName, artist: artistName });
+            await playlist.save();
+            res.status(200).json({ message: 'Track added successfully', playlist });
+        } else {
+            res.status(400).json({ message: 'Track already exists in the playlist' });
+        }
+    } catch (error) {
+        console.error('Error adding track to playlist:', error);
+        res.status(500).json({ message: 'Error adding track to playlist', error: error.message });
+    }
+};
+
 // const deletePlaylist = async (req, res) => {
 //     const { id } = req.params;
 
@@ -52,4 +82,4 @@ const getPlaylistById = async (req, res) => {
 //     }
 // };
 
-module.exports = { createPlaylist, getUserPlaylists, getPlaylistById };
+module.exports = { createPlaylist, getUserPlaylists, getPlaylistById, addTrack};
