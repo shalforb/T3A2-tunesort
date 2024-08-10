@@ -12,7 +12,7 @@ const useCreateUser = () => {
         setSuccess(false);
 
         try {
-            const res = await fetch('http://localhost:5001/users', {
+            const res = await fetch('http://localhost:5001/users/create', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
