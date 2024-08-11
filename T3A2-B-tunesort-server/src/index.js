@@ -11,8 +11,13 @@ const playlistRoutes = require('./routes/playlistRoutes');
 const app = express();
 const PORT = process.env.PORT || 5001;
 
+const corsOptions = {
+    origin: process.env.VITE_SERVER_BASE_URL,
+    optionsSuccessStatus: 200 
+  };
+
 app.use(express.json());
-app.use(cors());
+app.use(cors('*', corsOptions));
 app.use('/', welcomeRoute);
 app.use('/users', userRoutes);
 app.use('/playlists', playlistRoutes);
