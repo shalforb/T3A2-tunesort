@@ -12,7 +12,7 @@ const useCreateUser = () => {
         setSuccess(false);
 
         try {
-            const res = await fetch('http://localhost:5001/users/create', {
+            const res = await fetch(`${import.meta.env.VITE_SERVER_BASE_URL}/users/create`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

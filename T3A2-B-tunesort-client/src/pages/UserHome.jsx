@@ -71,7 +71,7 @@ function UserHome() {
     };
 
     const handleLinkSpotify = () => {
-        window.location.href = 'http://localhost:5001/spotify/authorize';
+        window.location.href = `${import.meta.env.VITE_SERVER_BASE_URL}/spotify/authorize`;
     };
 
     return (

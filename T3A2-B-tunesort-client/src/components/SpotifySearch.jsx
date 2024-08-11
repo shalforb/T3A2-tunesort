@@ -24,7 +24,7 @@ const SpotifySearch = ({ onTrackSelect, playlistId }) => {
                 return;
             }
 
-            const { data } = await axios.get('http://localhost:5001/spotify/search', {
+            const { data } = await axios.get(`${import.meta.env.VITE_SERVER_BASE_URL}/spotify/search`, {
                 params: { q: query },
                 headers: { 'Authorization': `Bearer ${accessToken}` }
             });

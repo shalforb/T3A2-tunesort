@@ -12,7 +12,7 @@ const useDeleteTrack = () => {
         setSuccess(false);
 
         try {
-            const res = await fetch('http://localhost:5001/playlists/deleteTrack', {
+            const res = await fetch(`${import.meta.env.VITE_SERVER_BASE_URL}/playlists/deleteTrack`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',

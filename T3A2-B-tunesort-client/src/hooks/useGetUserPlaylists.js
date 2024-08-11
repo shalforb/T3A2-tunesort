@@ -16,7 +16,7 @@ const useGetUserPlaylists = () => {
         const token = localStorage.getItem('token');
 
         try {
-            const res = await fetch(`http://localhost:5001/playlists/${userId}`, {
+            const res = await fetch(`${import.meta.env.VITE_SERVER_BASE_URL}/playlists/${userId}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

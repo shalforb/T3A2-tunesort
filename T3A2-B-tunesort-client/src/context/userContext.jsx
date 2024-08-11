@@ -11,7 +11,7 @@ export const UserProvider = ({ children }) => {
         console.log('Token from localStorage:', token); 
         if (token) {
             try {
-                const response = await fetch('http://localhost:5001/users/api/users', {
+                const response = await fetch(`${import.meta.env.VITE_SERVER_BASE_URL}/users/api/users`, {
                     method: 'GET',
                     headers: {
                         'Authorization': `Bearer ${token}`

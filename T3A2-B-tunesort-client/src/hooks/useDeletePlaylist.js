@@ -4,7 +4,7 @@ const useDeletePlaylist = () => {
     const deletePlaylist = async (playlistId) => {
         try {
             const token = localStorage.getItem('token'); // Retrieve the JWT token from localStorage
-            const response = await axios.delete(`http://localhost:5001/playlists/${playlistId}`, {
+            const response = await axios.delete(`${import.meta.env.VITE_SERVER_BASE_URL}/playlists/${playlistId}`, {
                 headers: {
                     'Authorization': `Bearer ${token}`, // Include the JWT token in the headers
                 },

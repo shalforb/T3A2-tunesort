@@ -14,7 +14,7 @@ const useStoreSpotifyTokens = () => {
         const token = localStorage.getItem('token');
 
         try {
-            const response = await axios.post('http://localhost:5001/spotify/storeTokens', {
+            const response = await axios.post(`${import.meta.env.VITE_SERVER_BASE_URL}/spotify/storeTokens`, {
                 accessToken,
                 refreshToken,
                 userId

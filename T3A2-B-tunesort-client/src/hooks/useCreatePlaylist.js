@@ -16,7 +16,7 @@ const useCreatePlaylist = () => {
         const token = localStorage.getItem('token');
 
         try {
-            const res = await fetch('http://localhost:5001/playlists/create', {
+            const res = await fetch(`${import.meta.env.VITE_SERVER_BASE_URL}/playlists/create`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

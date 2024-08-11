@@ -18,7 +18,7 @@ const useExchangeSpotifyToken = () => {
         setSuccess(false);
 
         try {
-            const response = await axios.get('http://localhost:5001/spotify/auth/spotify', {
+            const response = await axios.get(`${import.meta.env.VITE_SERVER_BASE_URL}/spotify/auth/spotify`, {
                 params: { code }
             });
 

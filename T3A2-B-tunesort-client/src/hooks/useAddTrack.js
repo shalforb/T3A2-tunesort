@@ -15,8 +15,7 @@ const useAddTrack = () => {
         const spotifyAccessToken = localStorage.getItem('spotifyAccessToken');
 
         try {
-            const res = await fetch('http://localhost:5001/playlists/addTrack', {
-                method: 'POST',
+            const res = await fetch(`${import.meta.env.VITE_SERVER_BASE_URL}/playlists/addTrack`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${jwtToken}`, // Include the JWT token here
