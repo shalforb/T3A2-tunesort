@@ -18,6 +18,12 @@ app.use('/users', userRoutes);
 app.use('/playlists', playlistRoutes);
 app.use('/spotify', spotifyRoutes); 
 
+app.use(express.static(path.join(__dirname, '..', 'T3A2-B-tunesort-client', 'dist')));
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '..', 'T3A2-B-tunesort-client', 'dist', 'index.html'));
+});
+
 const CONNECTION_URL = process.env.MONGODB_URI;
 mongoose.connect(CONNECTION_URL)
     .then(() => app.listen(PORT, () => console.log(`Server running on port: ${PORT}`)))
