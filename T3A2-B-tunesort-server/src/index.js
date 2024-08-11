@@ -11,10 +11,10 @@ const playlistRoutes = require('./routes/playlistRoutes');
 const app = express();
 const PORT = process.env.PORT || 5001;
 
-const corsOptions = {
-    origin: process.env.VITE_SERVER_BASE_URL,
-    optionsSuccessStatus: 200 
-  };
+// const corsOptions = {
+//     origin: process.env.VITE_SERVER_BASE_URL,
+//     optionsSuccessStatus: 200 
+//   };
 
 app.use(express.json());
 app.use(cors('*', corsOptions));
