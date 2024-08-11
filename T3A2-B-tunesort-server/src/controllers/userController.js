@@ -1,5 +1,5 @@
 const User = require('../models/User'); // Import your User model
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 const getUserInfo = async (req, res) => {
