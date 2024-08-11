@@ -11,10 +11,14 @@ const playlistRoutes = require('./routes/playlistRoutes');
 const app = express();
 const PORT = process.env.PORT || 5001;
 
-// const corsOptions = {
-//     origin: process.env.VITE_SERVER_BASE_URL,
-//     optionsSuccessStatus: 200 
-//   };
+const corsOptions = {
+    origin: process.env.VITE_SERVER_BASE_URL,
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true, // If your frontend needs to send cookies with requests
+    optionsSuccessStatus: 204
+  };
+  
+  app.use(cors(corsOptions)); // Apply CORS middleware with options
 
 app.use(express.json());
 // app.use(cors('*', corsOptions));
