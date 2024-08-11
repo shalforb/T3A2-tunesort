@@ -10,7 +10,7 @@ const useAddTrack = () => {
         setError(null);
         setSuccess(false);
 
-        // Retrieve the JWT token for your backend and the Spotify access token from local storage
+  
         const jwtToken = localStorage.getItem('token');
         const spotifyAccessToken = localStorage.getItem('spotifyAccessToken');
 
@@ -43,3 +43,5 @@ const useAddTrack = () => {
 };
 
 export default useAddTrack;
+
+
