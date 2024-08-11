@@ -30,7 +30,7 @@ function UserHome() {
         };
 
         fetchPlaylists();
-    }, [user?._id, tokens.accessToken]);
+    }, [user?._id, tokens.accessToken, getUserPlaylists]);
 
     const handleButtonClick = () => {
         setIsFormVisible(true);
