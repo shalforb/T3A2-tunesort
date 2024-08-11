@@ -17,7 +17,7 @@ const PORT = process.env.PORT || 5001;
 //   };
 
 app.use(express.json());
-app.use(cors('*', corsOptions));
+// app.use(cors('*', corsOptions));
 app.use('/', welcomeRoute);
 app.use('/users', userRoutes);
 app.use('/playlists', playlistRoutes);
