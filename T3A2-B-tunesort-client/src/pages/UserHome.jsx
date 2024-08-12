@@ -80,10 +80,11 @@ function UserHome() {
                                 <IoIosAddCircleOutline />
                             </Button>
                             {playlists.length === 0 && (
-                                <div className="absolute top-0 left-16 transform translate-y-full bg-white text-gray-700 border border-gray-300 rounded-lg px-4 py-2 shadow-lg z-10 transition-opacity duration-500 opacity-0 hover:opacity-100 whitespace-nowrap">
+                                <div className="absolute top-0 left-16 transform translate-y-full bg-white text-gray-700 border border-gray-300 rounded-lg px-4 py-2 shadow-lg z-10 transition-opacity duration-500 opacity-100 whitespace-nowrap fade-in">
                                     <p className="text-sm">Click here to make your first playlist</p>
                                 </div>
                             )}
+
                         </div>
                         {isFormVisible && (
                             <form onSubmit={handleSubmit} className="ml-4 flex items-center">
