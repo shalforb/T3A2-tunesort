@@ -1,5 +1,4 @@
-//useAddTrack.js
-
+// useAddTrack.js
 import { useState } from 'react';
 
 const useAddTrack = () => {
@@ -10,7 +9,7 @@ const useAddTrack = () => {
     const addTrack = async (playlistId, artistName, trackName, spotifyId) => {
         setLoading(true);
         setError(null);
-        setSuccess(false);
+        setSuccess(false); // Reset success before the operation
 
         try {
             const res = await fetch(`${import.meta.env.VITE_SERVER_BASE_URL}/playlists/addTrack`, {
@@ -27,14 +26,14 @@ const useAddTrack = () => {
 
             if (!res.ok) {
                 setError(data.message);
-                return null;
+                return false; // Return false if adding the track failed
             }
 
-            setSuccess(true);
-            return data;
+            setSuccess(true); // Set success to true if the track was added successfully
+            return true; // Return true on success
         } catch (error) {
             setError(error.message);
-            return null;
+            return false; // Return false on error
         } finally {
             setLoading(false);
         }
@@ -44,5 +43,3 @@ const useAddTrack = () => {
 };
 
 export default useAddTrack;
-
-
