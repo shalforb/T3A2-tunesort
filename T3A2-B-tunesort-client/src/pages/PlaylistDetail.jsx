@@ -85,29 +85,33 @@ const PlaylistDetail = () => {
         <div>
             <NavBar />
             
-            <div className="flex items-center justify-between w-full max-w-7xl mx-auto mt-4 mb-4 px-4">
+            <div className="flex justify-between w-full max-w-7xl mx-auto mt-4 mb-4 px-4">
                 {/* Align title to the left */}
-                <MainText mainText={playlist?.name} className="text-4xl font-bold flex-shrink-0" />
+                <div className="flex items-center">
+                    <MainText mainText={playlist?.name} className="text-4xl font-bold" />
+                </div>
                 
                 {/* Center the search bar */}
-                <div className="flex-grow mx-4">
+                <div className="flex-grow mx-4 flex justify-center">
                     <SpotifySearch onTrackSelect={handleTrackSelect} accessToken={accessToken} playlistId={id} />
                 </div>
 
                 {/* Align back button to the right */}
-                <button
-                    onClick={() => navigate('/userhome')}
-                    className="p-2 rounded-full transition-colors focus:outline-none flex-shrink-0"
-                >
-                    <HiArrowLeft size={34} className="text-gray-800 hover:text-gray-600" />
-                </button>
+                <div className="flex items-center justify-end">
+                    <button
+                        onClick={() => navigate('/userhome')}
+                        className="p-2 rounded-full transition-colors focus:outline-none"
+                    >
+                        <HiArrowLeft size={34} className="text-gray-800 hover:text-gray-600" />
+                    </button>
+                </div>
             </div>
 
             <hr className="border-t-2 border-gray-200 my-4" />
 
             <table className="min-w-full mt-4 border-collapse border border-gray-300">
                 <thead>
-                    <tr className="bg-gray-200">
+                    <tr className="bg-[#e1e5d4]"> {/* Subtle stone/earthy green */}
                         <SortableTableHeader
                             label="Track Name"
                             sortKey="name"
@@ -149,7 +153,7 @@ const PlaylistDetail = () => {
                 </thead>
                 <tbody>
                     {sortedTracks.map((track, index) => (
-                        <tr key={index} className={`odd:bg-white even:bg-gray-100`}>
+                        <tr key={index} className={`odd:bg-[#f0f0ec] even:bg-[#e8e8e5]`}>
                             <td className="border border-gray-300 p-2">{track.name}</td>
                             <td className="border border-gray-300 p-2">{track.artist}</td>
                             <td className="border border-gray-300 p-2 text-center">{track.tempo}</td>
