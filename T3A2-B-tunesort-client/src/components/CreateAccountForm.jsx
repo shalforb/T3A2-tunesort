@@ -18,7 +18,7 @@ function CreateAccountForm() {
     };
 
     return (
-        <div className="max-w-lg mx-auto p-8  mt-8">
+        <div className="max-w-md w-full mx-auto p-4">
             <form onSubmit={handleSubmit}>
                 <div className="mb-6">
                     <input
@@ -27,7 +27,7 @@ function CreateAccountForm() {
                         placeholder="email address"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        className="w-full p-4 border-2 rounded-full shadow-md focus:outline-none border-[#5e843e] placeholder-gray-400 text-lg"
+                        className="w-full p-3 md:p-4 border-2 rounded-full shadow-md focus:outline-none border-[#5e843e] placeholder-gray-400 text-base md:text-lg"
                         required
                     />
                 </div>
@@ -38,16 +38,16 @@ function CreateAccountForm() {
                         placeholder="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        className="w-full p-4 border-2 rounded-full shadow-md focus:outline-none border-[#5e843e] placeholder-gray-400 text-lg"
+                        className="w-full p-3 md:p-4 border-2 rounded-full shadow-md focus:outline-none border-[#5e843e] placeholder-gray-400 text-base md:text-lg"
                         required
                     />
                 </div>
                 <button
                     type="submit"
-                    className="w-full py-3 bg-green-600 text-white rounded-full hover:bg-green-700 transition duration-300 text-lg"
+                    className="w-full py-3 bg-green-600 text-white rounded-full hover:bg-green-700 transition duration-300 text-base md:text-lg"
                     disabled={loading}
                 >
-                    Create Account
+                    Get Started
                 </button>
             </form>
             {error && <p className="text-red-500 mt-4 text-center">{error}</p>}
