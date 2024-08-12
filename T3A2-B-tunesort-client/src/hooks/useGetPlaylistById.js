@@ -1,6 +1,4 @@
-//useGetPlaylistById.js
-
-import { useState } from 'react';
+import { useState } from "react";
 
 const useGetPlaylistById = () => {
     const [loading, setLoading] = useState(false);
@@ -34,9 +32,7 @@ const useGetPlaylistById = () => {
         }
     };
 
-    return { getPlaylistById, playlist, loading, error };
+    return { getPlaylistById, playlist, loading, error, setPlaylist };
 };
 
 export default useGetPlaylistById;
-
-//

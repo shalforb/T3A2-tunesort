@@ -13,7 +13,7 @@ import { HiOutlineTrash, HiArrowLeft } from 'react-icons/hi';
 const PlaylistDetail = () => {
     const { id } = useParams();
     const navigate = useNavigate(); 
-    const { getPlaylistById, playlist, loading, error } = useGetPlaylistById();
+    const { getPlaylistById, playlist, loading, error, setPlaylist } = useGetPlaylistById();
     const [accessToken, setAccessToken] = useState(null);
     const [sortConfig, setSortConfig] = useState({ key: 'name', direction: 'ascending' });
     const { deleteTrack } = useDeleteTrack();
@@ -35,7 +35,24 @@ const PlaylistDetail = () => {
             await axios.post(`/playlists/${id}`, {
                 trackId: track.id
             });
-            await getPlaylistById(id); 
+    
+            // Manually update the playlist state with the new track
+            const newTrack = {
+                name: track.name,
+                artist: track.artists.map(artist => artist.name).join(', '),
+                acousticness: Math.round(track.acousticness * 100),
+                danceability: Math.round(track.danceability * 100),
+                energy: Math.round(track.energy * 100),
+                key: track.key,
+                camelot: track.camelot,
+                tempo: Math.round(track.tempo),
+                spotifyId: track.id
+            };
+    
+            setPlaylist(prevState => ({
+                ...prevState,
+                tracks: [...prevState.tracks, newTrack]
+            }));
         } catch (err) {
             console.error('Error adding track:', err.message);
         }
