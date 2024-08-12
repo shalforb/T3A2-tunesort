@@ -32,7 +32,7 @@ const PlaylistDetail = () => {
 
     const handleTrackSelect = async (track) => {
         try {
-            await axios.post(`/playlists/${id}/tracks`, {
+            await axios.post(`/playlists/${id}`, {
                 trackId: track.id
             });
             getPlaylistById(id);
