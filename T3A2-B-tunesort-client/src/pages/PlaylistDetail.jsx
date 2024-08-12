@@ -84,17 +84,13 @@ const PlaylistDetail = () => {
         <div>
             <NavBar />
             
-            {/* Container for the title, search bar, and back button */}
             <div className="flex items-center justify-between w-full max-w-7xl mx-auto mt-4 mb-4 px-4">
-                {/* Playlist Title */}
                 <h1 className="text-4xl font-bold flex-shrink-0">{playlist?.name}</h1>
                 
-                {/* Search bar centered */}
                 <div className="flex-grow mx-4">
                     <SpotifySearch onTrackSelect={handleTrackSelect} accessToken={accessToken} playlistId={id} />
                 </div>
 
-                {/* Back button on the far right */}
                 <button
                     onClick={() => navigate('/userhome')}
                     className="p-2 rounded-full transition-colors focus:outline-none flex-shrink-0"
@@ -103,17 +99,11 @@ const PlaylistDetail = () => {
                 </button>
             </div>
 
-            <hr className="border-t-2 border-gray-200 my-4" /> {/* Divider */}
+            <hr className="border-t-2 border-gray-200 my-4" />
 
             <table className="min-w-full mt-4 border-collapse border border-gray-300">
                 <thead>
                     <tr className="bg-[#e0e0e0]">
-                        <SortableTableHeader
-                            label="#"
-                            sortKey="index"
-                            sortConfig={sortConfig}
-                            requestSort={requestSort}
-                        />
                         <SortableTableHeader
                             label="Track Name"
                             sortKey="name"
@@ -150,15 +140,12 @@ const PlaylistDetail = () => {
                             sortConfig={sortConfig}
                             requestSort={requestSort}
                         />
-                        <SortableTableHeader
-                            label="Actions"
-                        />
+                        <th className="border border-gray-300 p-2">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     {sortedTracks.map((track, index) => (
                         <tr key={index} className={`odd:bg-white even:bg-gray-100`}>
-                            <td className="border border-gray-300 p-2 text-center">{index + 1}</td>
                             <td className="border border-gray-300 p-2">{track.name}</td>
                             <td className="border border-gray-300 p-2">{track.artist}</td>
                             <td className="border border-gray-300 p-2 text-center">{track.tempo}</td>
