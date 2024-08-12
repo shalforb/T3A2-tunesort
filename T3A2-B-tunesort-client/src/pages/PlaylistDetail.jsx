@@ -30,25 +30,54 @@ const PlaylistDetail = () => {
             });
     }, [id]);
 
+    // const handleTrackSelect = async (track) => {
+    //     try {
+    //         await axios.post(`/playlists/${id}/tracks`, {
+    //             trackId: track.id
+    //         });
+    //         getPlaylistById(id);
+    //     } catch (err) {
+    //         console.error('Error adding track:', err.message);
+    //     }
+    // };
+
     const handleTrackSelect = async (track) => {
         try {
-            await axios.post(`/playlists/${id}/tracks`, {
+            const response = await axios.post(`/playlists/${id}/tracks`, {
                 trackId: track.id
             });
-            getPlaylistById(id);
+            
+            // Assuming the response returns the updated playlist, or you can add the track manually
+            const updatedPlaylist = response.data.playlist || {
+                ...playlist,
+                tracks: [...playlist.tracks, { /* Track data */ }]
+            };
+            setPlaylist(updatedPlaylist);
         } catch (err) {
             console.error('Error adding track:', err.message);
         }
     };
-
+    
     const handleDeleteTrack = async (trackId) => {
         try {
             await deleteTrack(id, trackId);
-            getPlaylistById(id);
+            
+            // Update the playlist state by removing the deleted track
+            const updatedTracks = playlist.tracks.filter(track => track.spotifyId !== trackId);
+            setPlaylist({ ...playlist, tracks: updatedTracks });
         } catch (err) {
             console.error('Error deleting track:', err.message);
         }
     };
+
+    // const handleDeleteTrack = async (trackId) => {
+    //     try {
+    //         await deleteTrack(id, trackId);
+    //         getPlaylistById(id);
+    //     } catch (err) {
+    //         console.error('Error deleting track:', err.message);
+    //     }
+    // };
 
     const sortTracks = (tracks) => {
         if (sortConfig !== null) {
