@@ -8,7 +8,6 @@ import { useUser } from '../context/userContext';
 import useCreatePlaylist from "../hooks/useCreatePlaylist";
 import useGetUserPlaylists from '../hooks/useGetUserPlaylists';
 import useDeletePlaylist from '../hooks/useDeletePlaylist';
-import { useSpotifyTokens } from '../context/spotifyTokenContext';
 import { useNavigate } from 'react-router-dom';
 import { IoIosAddCircleOutline, IoMdTrash, IoIosRefresh } from "react-icons/io";
 
@@ -20,19 +19,18 @@ function UserHome() {
     const { createPlaylist } = useCreatePlaylist();
     const { getUserPlaylists } = useGetUserPlaylists();
     const { deletePlaylist } = useDeletePlaylist();
-    const { tokens } = useSpotifyTokens();
     const navigate = useNavigate();
 
     useEffect(() => {
         const fetchPlaylists = async () => {
-            if (user?._id && tokens.accessToken) {
+            if (user?._id) {  
                 const playlistData = await getUserPlaylists(user._id);
                 setPlaylists(playlistData || []);
             }
         };
-
+    
         fetchPlaylists();
-    }, [user?._id, tokens.accessToken, getUserPlaylists]);
+    }, [user?._id, getUserPlaylists]);
 
     const handleButtonClick = () => {
         setIsFormVisible(true);
