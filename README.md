@@ -167,7 +167,7 @@ Testing and deployment became the final stages of planning, where it was broken 
 
 ![trello 7](./docs/Trello_7.png)
 
-## Developmen & Production Testing
+## Development & Production Testing
 
 During the development of my Express and React application, thorough testing was a critical component to ensure robust functionality and seamless user experiences. I meticulously documented individual routes, workflows, and authentication flows in Trello, allowing for systematic tracking and identification of potential issues. To validate the functionality of each route, I employed Postman extensively, conducting rigorous tests to ensure that all API endpoints were functioning as expected. This included verifying that tokens were generated and managed correctly, authentication processes were secure and reliable, and that the database was accurately receiving, storing, and retrieving data.
 

@@ -10,10 +10,9 @@ import { IoIosMusicalNotes } from "react-icons/io";
 
 function Welcome() {
     const navigate = useNavigate();
-    const { exchangeSpotifyToken, accessToken, refreshToken } = useExchangeSpotifyToken();
+    const { exchangeSpotifyToken } = useExchangeSpotifyToken();
     const { updateTokens } = useSpotifyTokens();
     const { user } = useUser();
-    
 
     const urlParams = new URLSearchParams(window.location.search);
     const code = urlParams.get('code');
@@ -23,13 +22,8 @@ function Welcome() {
             if (code) {
                 const result = await exchangeSpotifyToken(code);
 
-                // Always log the result and handle errors
-                console.log('RESULT:', result);
-
                 if (result.success) {
                     updateTokens(result.accessToken, result.refreshToken);
-
-                    // Navigate to the user home page
                     navigate('/userhome');
                 } else {
                     console.error('Error exchanging token:', result.error);
@@ -45,17 +39,20 @@ function Welcome() {
     };
 
     return (
-        <div>
-            
+        <div className="min-h-screen flex flex-col justify-between">
             <Navbar />
-            <div className="flex items-center justify-center h-64">
-                <IoIosMusicalNotes className="text-[210px]" />
+            <div className="flex-grow flex flex-col items-center justify-center text-center p-4">
+                <IoIosMusicalNotes className="text-[150px] md:text-[210px]" />
+                <MainText 
+                    mainText="Enhance your musical experience by creating and sorting your playlists based on various musical attributes like tempo, key, camelot, energy, and more." 
+                    className="text-[24px] md:text-[36px] max-w-2xl"
+                />
+                <Button 
+                    buttonText="Get Started." 
+                    className="mt-8 py-4 px-16 md:py-6 md:px-24 bg-green-600 hover:bg-green-700 text-[18px] md:text-[24px] text-white rounded-md" 
+                    onClick={handleGoToCreateAccount} 
+                />
             </div>
-            <MainText mainText="Enhance your musical experience by creating and sorting your playlists based on various musical attributes like tempo, key, camelot, energy, and more." className="text-[36px]" />
-            <div className="flex items-center justify-center ">
-            <Button buttonText="Get Started." className=" py-8 px-36 bg-green-600 text-[24px] text-white rounded-md" onClick={handleGoToCreateAccount} />
-            </div>
-            
         </div>
     );
 }
