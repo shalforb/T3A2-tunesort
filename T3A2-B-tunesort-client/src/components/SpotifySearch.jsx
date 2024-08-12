@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import axios from 'axios';
+import useAddTrack from '../hooks/useAddTrack';
 import { HiOutlineSearch } from 'react-icons/hi';
 
 const SpotifySearch = ({ onTrackSelect, playlistId }) => {
@@ -9,6 +10,7 @@ const SpotifySearch = ({ onTrackSelect, playlistId }) => {
     const [results, setResults] = useState([]);
     const [error, setError] = useState(null);
     const [isClicked, setIsClicked] = useState(false);
+    const { addTrack, loading, error: addTrackError, success } = useAddTrack();
 
     const handleSearch = async () => {
         if (!query.trim()) {
@@ -47,14 +49,11 @@ const SpotifySearch = ({ onTrackSelect, playlistId }) => {
             const artistName = track.artists.map(artist => artist.name).join(', ');
             const trackName = track.name;
             const spotifyId = track.id;
-    
-            // Call the onTrackSelect prop with all necessary data, including playlistId
-            if (onTrackSelect) {
-                onTrackSelect({ artist: artistName, name: trackName, id: spotifyId, playlistId });
-            }
-            console.log('Track selected:', { artistName, trackName, spotifyId, playlistId });
+
+            const response = await addTrack(playlistId, artistName, trackName, spotifyId);
+            console.log('Track added to playlist:', response);
         } catch (error) {
-            console.error('Error handling track selection:', error.message);
+            console.error('Error adding track to playlist:', error.message);
         }
     };
 

@@ -1,4 +1,4 @@
-//playlistdetail.jsx
+//PlaylistDetail.jsx
 
 import { useParams, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
@@ -9,16 +9,14 @@ import axios from 'axios';
 import SortableTableHeader from '../components/SortableTableHeader';
 import useDeleteTrack from '../hooks/useDeleteTrack';
 import { HiOutlineTrash, HiArrowLeft } from 'react-icons/hi';
-import useAddTrack from '../hooks/useAddTrack'; // Import the useAddTrack hook
 
 const PlaylistDetail = () => {
     const { id } = useParams();
     const navigate = useNavigate(); 
-    const { getPlaylistById, playlist, loading, error, setPlaylist } = useGetPlaylistById(); // Added setPlaylist to update the playlist
+    const { getPlaylistById, playlist, loading, error } = useGetPlaylistById();
     const [accessToken, setAccessToken] = useState(null);
     const [sortConfig, setSortConfig] = useState({ key: 'name', direction: 'ascending' });
     const { deleteTrack } = useDeleteTrack();
-    const { addTrack } = useAddTrack(); // Use the addTrack function from the useAddTrack hook
 
     useEffect(() => {
         getPlaylistById(id);
@@ -31,29 +29,22 @@ const PlaylistDetail = () => {
                 console.error('Error fetching Spotify token:', error);
             });
     }, [id]);
-    
+
     const handleTrackSelect = async (track) => {
         try {
-            const response = await addTrack(track.playlistId, track.artist, track.name, track.id);
-            if (response && response.playlist) {
-                setPlaylist(response.playlist);
-            } else {
-                console.error('Failed to add track:', response);
-            }
+            await axios.post(`/playlists/${id}/tracks`, {
+                trackId: track.id
+            });
+            getPlaylistById(id);
         } catch (err) {
-            console.error('Error adding track:', err);
+            console.error('Error adding track:', err.message);
         }
     };
 
     const handleDeleteTrack = async (trackId) => {
         try {
-            const deletedTrack = await deleteTrack(id, trackId);
-            if (deletedTrack) {
-                setPlaylist(prevPlaylist => ({
-                    ...prevPlaylist,
-                    tracks: prevPlaylist.tracks.filter(track => track.spotifyId !== trackId) // Remove the deleted track
-                }));
-            }
+            await deleteTrack(id, trackId);
+            getPlaylistById(id);
         } catch (err) {
             console.error('Error deleting track:', err.message);
         }
@@ -102,7 +93,7 @@ const PlaylistDetail = () => {
                 
                 {/* Search bar centered */}
                 <div className="flex-grow mx-4">
-                <SpotifySearch onTrackSelect={handleTrackSelect} accessToken={accessToken} playlistId={id} />
+                    <SpotifySearch onTrackSelect={handleTrackSelect} accessToken={accessToken} playlistId={id} />
                 </div>
 
                 {/* Back button on the far right */}
@@ -196,5 +187,3 @@ const PlaylistDetail = () => {
 };
 
 export default PlaylistDetail;
-
-//
