@@ -1,5 +1,3 @@
-//PlaylistDetail.jsx
-
 import { useParams, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import NavBar from "../components/NavBar";
@@ -13,13 +11,22 @@ import { HiOutlineTrash, HiArrowLeft } from 'react-icons/hi';
 const PlaylistDetail = () => {
     const { id } = useParams();
     const navigate = useNavigate(); 
-    const { getPlaylistById, playlist, loading, error } = useGetPlaylistById();
+
+    // State for the playlist data
+    const [playlist, setPlaylist] = useState(null);  // <-- Define playlist state here
     const [accessToken, setAccessToken] = useState(null);
     const [sortConfig, setSortConfig] = useState({ key: 'name', direction: 'ascending' });
     const { deleteTrack } = useDeleteTrack();
 
+    const { getPlaylistById, loading, error } = useGetPlaylistById();
+
     useEffect(() => {
-        getPlaylistById(id);
+        const fetchPlaylist = async () => {
+            const fetchedPlaylist = await getPlaylistById(id);
+            setPlaylist(fetchedPlaylist);  // Set the playlist state
+        };
+
+        fetchPlaylist();
 
         axios.get('/spotify/token')
             .then(response => {
@@ -30,54 +37,40 @@ const PlaylistDetail = () => {
             });
     }, [id]);
 
-    // const handleTrackSelect = async (track) => {
-    //     try {
-    //         await axios.post(`/playlists/${id}/tracks`, {
-    //             trackId: track.id
-    //         });
-    //         getPlaylistById(id);
-    //     } catch (err) {
-    //         console.error('Error adding track:', err.message);
-    //     }
-    // };
-
     const handleTrackSelect = async (track) => {
         try {
             const response = await axios.post(`/playlists/${id}/tracks`, {
                 trackId: track.id
             });
-            
-            // Assuming the response returns the updated playlist, or you can add the track manually
-            const updatedPlaylist = response.data.playlist || {
-                ...playlist,
-                tracks: [...playlist.tracks, { /* Track data */ }]
+
+            const newTrack = {
+                name: track.name,
+                artist: track.artists.map(artist => artist.name).join(', '),
+                spotifyId: track.id,
+                // Add other properties if needed
             };
+
+            const updatedPlaylist = {
+                ...playlist,
+                tracks: [...playlist.tracks, newTrack]
+            };
+
             setPlaylist(updatedPlaylist);
         } catch (err) {
             console.error('Error adding track:', err.message);
         }
     };
-    
+
     const handleDeleteTrack = async (trackId) => {
         try {
             await deleteTrack(id, trackId);
-            
-            // Update the playlist state by removing the deleted track
+
             const updatedTracks = playlist.tracks.filter(track => track.spotifyId !== trackId);
             setPlaylist({ ...playlist, tracks: updatedTracks });
         } catch (err) {
             console.error('Error deleting track:', err.message);
         }
     };
-
-    // const handleDeleteTrack = async (trackId) => {
-    //     try {
-    //         await deleteTrack(id, trackId);
-    //         getPlaylistById(id);
-    //     } catch (err) {
-    //         console.error('Error deleting track:', err.message);
-    //     }
-    // };
 
     const sortTracks = (tracks) => {
         if (sortConfig !== null) {
@@ -117,15 +110,12 @@ const PlaylistDetail = () => {
             
             {/* Container for the title, search bar, and back button */}
             <div className="flex items-center justify-between w-full max-w-7xl mx-auto mt-4 mb-2 px-4">
-                {/* Playlist Title on the far left */}
                 <h1 className="text-2xl font-bold flex-shrink-0">{playlist?.name}</h1>
                 
-                {/* Search bar centered */}
                 <div className="flex-grow mx-4">
                     <SpotifySearch onTrackSelect={handleTrackSelect} accessToken={accessToken} playlistId={id} />
                 </div>
 
-                {/* Back button on the far right */}
                 <button
                     onClick={() => navigate('/userhome')}
                     className="p-2 rounded-full transition-colors focus:outline-none flex-shrink-0"
