@@ -7,7 +7,7 @@ const SortableTableHeader = ({ label, sortKey, sortConfig, requestSort }) => {
     return (
         <th 
             onClick={() => requestSort(sortKey)} 
-            className={`p-2 cursor-pointer ${isActive ? 'bg-gray-200 font-bold' : ''}`}
+            className={`p-2 cursor-pointer ${isActive ? 'bg-gray-400 text-white' : 'bg-gray-200'} font-bold`}
         >
             <div className="flex items-center">
                 <span>{label}</span>

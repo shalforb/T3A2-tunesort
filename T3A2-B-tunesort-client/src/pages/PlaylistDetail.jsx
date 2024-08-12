@@ -1,6 +1,7 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import NavBar from "../components/NavBar";
+import MainText from "../components/MainText";
 import useGetPlaylistById from '../hooks/useGetPlaylistById';
 import SpotifySearch from '../components/SpotifySearch';
 import axios from 'axios';
@@ -85,12 +86,15 @@ const PlaylistDetail = () => {
             <NavBar />
             
             <div className="flex items-center justify-between w-full max-w-7xl mx-auto mt-4 mb-4 px-4">
-                <h1 className="text-4xl font-bold flex-shrink-0">{playlist?.name}</h1>
+                {/* Align title to the left */}
+                <MainText mainText={playlist?.name} className="text-4xl font-bold flex-shrink-0" />
                 
+                {/* Center the search bar */}
                 <div className="flex-grow mx-4">
                     <SpotifySearch onTrackSelect={handleTrackSelect} accessToken={accessToken} playlistId={id} />
                 </div>
 
+                {/* Align back button to the right */}
                 <button
                     onClick={() => navigate('/userhome')}
                     className="p-2 rounded-full transition-colors focus:outline-none flex-shrink-0"
@@ -103,7 +107,7 @@ const PlaylistDetail = () => {
 
             <table className="min-w-full mt-4 border-collapse border border-gray-300">
                 <thead>
-                    <tr className="bg-[#e0e0e0]">
+                    <tr className="bg-gray-200">
                         <SortableTableHeader
                             label="Track Name"
                             sortKey="name"
