@@ -85,18 +85,13 @@ const PlaylistDetail = () => {
         <div>
             <NavBar />
             
-            <div className="flex justify-between items-center w-full mt-4 mb-4 px-0"> {/* Removed padding */}
-                {/* Align title to the left */}
+            <div className="flex items-center justify-between w-full mt-4 mb-4 px-0">
                 <div className="flex items-center pl-4">
-                    <MainText mainText={playlist?.name} className="text-4xl font-bold" />
+                    <MainText mainText={playlist?.name} className="text-4xl font-bold mr-6" /> {/* Add margin-right */}
                 </div>
-                
-                {/* Center the search bar */}
-                <div className="flex-grow mx-4 flex justify-center">
-                    <SpotifySearch onTrackSelect={handleTrackSelect} accessToken={accessToken} playlistId={id} />
-                </div>
-
-                {/* Align back button to the right */}
+                    <div className="flex-grow mx-4 flex justify-center" style={{ maxWidth: '75%' }}>
+                     <SpotifySearch onTrackSelect={handleTrackSelect} accessToken={accessToken} playlistId={id} />
+                    </div>
                 <div className="flex items-center pr-4">
                     <button
                         onClick={() => navigate('/userhome')}

@@ -101,17 +101,16 @@ const SpotifySearch = ({ onTrackSelect, playlistId }) => {
 
             {error && <p className="text-red-500 mt-2">{error}</p>}
 
-            <ul className="mt-4">
+            <ul className="mt-4 space-y-3">
                 {results.map((track) => (
-                    <li key={track.id} className="mb-2">
+                    <li key={track.id} className="p-2 border border-gray-300 rounded-lg bg-white shadow-sm">
                         <div className="flex justify-between items-center">
-                            <span>
+                            <span className="text-sm font-medium">
                                 {track.name} by {track.artists.map(artist => artist.name).join(', ')}
                             </span>
                             <button 
                                 onClick={() => handleAddTrack(track)} 
-                                className="ml-4 bg-green-500 text-white px-3 py-1 rounded-full"
-                            >
+                                className="ml-4 bg-[#5e843e] text-white px-3 py-1 rounded-full hover:bg-green-600" >
                                 Add to Playlist
                             </button>
                         </div>
