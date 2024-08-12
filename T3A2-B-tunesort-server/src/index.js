@@ -16,7 +16,7 @@ const corsOptions = {
   origin: 'https://t3-a2-tunesort-client.vercel.app', // Frontend URL
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'Spotify-Authorization'],
-  credentials: true, 
+  credentials: true, // If you need to send cookies or authentication headers
 };
 
 // Apply CORS Middleware
