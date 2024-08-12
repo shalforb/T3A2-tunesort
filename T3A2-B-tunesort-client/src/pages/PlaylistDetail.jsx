@@ -13,7 +13,7 @@ import { HiOutlineTrash, HiArrowLeft } from 'react-icons/hi';
 const PlaylistDetail = () => {
     const { id } = useParams();
     const navigate = useNavigate(); 
-    const { getPlaylistById, playlist, loading, error, setPlaylist } = useGetPlaylistById();
+    const { getPlaylistById, playlist, loading, error, } = useGetPlaylistById();
     const [accessToken, setAccessToken] = useState(null);
     const [sortConfig, setSortConfig] = useState({ key: 'name', direction: 'ascending' });
     const { deleteTrack } = useDeleteTrack();
@@ -28,18 +28,14 @@ const PlaylistDetail = () => {
             .catch(error => {
                 console.error('Error fetching Spotify token:', error);
             });
-    }, [id]);
+    }, [id, getPlaylistById]);
 
     const handleTrackSelect = async (track) => {
         try {
-            // Add track to the playlist
             await axios.post(`/playlists/${id}`, {
                 trackId: track.id
             });
-    
-            // Re-fetch the updated playlist data
-            await getPlaylistById(id);
-    
+            window.location.reload(); // Force a page refresh
         } catch (err) {
             console.error('Error adding track:', err.message);
         }
