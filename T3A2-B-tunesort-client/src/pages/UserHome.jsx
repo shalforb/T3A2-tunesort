@@ -31,7 +31,7 @@ function UserHome() {
     }, [user?._id, getUserPlaylists]);
 
     const handleButtonClick = () => {
-        setIsFormVisible(true);
+        setIsFormVisible(!isFormVisible);
     };
 
     const handleCardClick = (playlistId) => {
@@ -78,25 +78,28 @@ function UserHome() {
                         <Button onClick={handleButtonClick} className="text-4xl md:text-5xl text-gray-600 hover:text-gray-800 ml-4">
                             <IoIosAddCircleOutline />
                         </Button>
+                        {isFormVisible && (
+                            <form onSubmit={handleSubmit} className="ml-4 flex items-center">
+                                <input
+                                    type="text"
+                                    value={playlistName}
+                                    onChange={(e) => setPlaylistName(e.target.value)}
+                                    placeholder="Enter playlist name"
+                                    className="w-64 p-3 border-2 rounded-full shadow-md focus:outline-none border-[#5e843e] placeholder-gray-400 text-lg"
+                                />
+                                <button 
+                                    type="submit" 
+                                    className="ml-2 px-4 py-3 bg-green-600 text-white rounded-full hover:bg-green-700 transition duration-300 text-lg"
+                                >
+                                    Submit
+                                </button>
+                            </form>
+                        )}
                     </div>
-                    {isFormVisible && (
-                        <form onSubmit={handleSubmit} className="ml-4 flex items-center">
-                            <input
-                                type="text"
-                                value={playlistName}
-                                onChange={(e) => setPlaylistName(e.target.value)}
-                                placeholder="Enter playlist name"
-                                className="border p-2 rounded-md"
-                            />
-                            <button type="submit" className="ml-2 p-2 bg-blue-500 text-white rounded-md">
-                                Submit
-                            </button>
-                        </form>
-                    )}
                 </div>
                 <hr className="border-t-2 border-gray-200 my-4" /> {/* Divider */}
             </div>
-            <div className="flex-grow grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 px-10 pb-8">
+            <div className="flex-grow grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 px-10 pb-8">
                 {playlists.map((playlist) => (
                     <div
                         key={playlist._id}
