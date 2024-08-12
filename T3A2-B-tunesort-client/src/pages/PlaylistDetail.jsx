@@ -32,27 +32,14 @@ const PlaylistDetail = () => {
 
     const handleTrackSelect = async (track) => {
         try {
+            // Add track to the playlist
             await axios.post(`/playlists/${id}`, {
                 trackId: track.id
             });
     
-            // Manually update the playlist state with the new track
-            const newTrack = {
-                name: track.name,
-                artist: track.artists.map(artist => artist.name).join(', '),
-                acousticness: Math.round(track.acousticness * 100),
-                danceability: Math.round(track.danceability * 100),
-                energy: Math.round(track.energy * 100),
-                key: track.key,
-                camelot: track.camelot,
-                tempo: Math.round(track.tempo),
-                spotifyId: track.id
-            };
+            // Re-fetch the updated playlist data
+            await getPlaylistById(id);
     
-            setPlaylist(prevState => ({
-                ...prevState,
-                tracks: [...prevState.tracks, newTrack]
-            }));
         } catch (err) {
             console.error('Error adding track:', err.message);
         }
