@@ -33,8 +33,9 @@ const PlaylistDetail = () => {
     const handleTrackSelect = async (track) => {
         try {
             const response = await addTrack(id, track.artist, track.name, track.id);
-            if (response && response.playlist) {  // Check if the response contains the updated playlist
-                setPlaylist(response.playlist); // Set the updated playlist directly from the response
+            if (response && response.playlist) {
+                setPlaylist(response.playlist); // This will update the playlist with the new track
+                console.log('Updated Playlist:', response.playlist); // Log the updated playlist to ensure it's correct
             }
         } catch (err) {
             console.error('Error adding track:', err.message);
