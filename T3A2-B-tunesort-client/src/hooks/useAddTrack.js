@@ -12,31 +12,29 @@ const useAddTrack = () => {
         setError(null);
         setSuccess(false);
 
-  
-        const jwtToken = localStorage.getItem('token');
-        const spotifyAccessToken = localStorage.getItem('spotifyAccessToken');
-
         try {
             const res = await fetch(`${import.meta.env.VITE_SERVER_BASE_URL}/playlists/addTrack`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${jwtToken}`, // Include the JWT token here
-                    'Spotify-Authorization': `Bearer ${spotifyAccessToken}` // Include the Spotify access token here
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                    'Spotify-Authorization': `Bearer ${localStorage.getItem('spotifyAccessToken')}`
                 },
                 body: JSON.stringify({ playlistId, artistName, trackName, spotifyId }),
             });
 
-            if (res.ok) {
-                const data = await res.json();
-                setSuccess(true);
-                return data;
-            } else {
-                const errorData = await res.json();
-                setError(errorData.message);
+            const data = await res.json();
+
+            if (!res.ok) {
+                setError(data.message);
+                return null;
             }
+
+            setSuccess(true);
+            return data;
         } catch (error) {
             setError(error.message);
+            return null;
         } finally {
             setLoading(false);
         }

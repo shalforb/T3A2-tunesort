@@ -1,3 +1,5 @@
+//playlistdetail.jsx
+
 import { useParams, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import NavBar from "../components/NavBar";
@@ -32,17 +34,14 @@ const PlaylistDetail = () => {
     
     const handleTrackSelect = async (track) => {
         try {
-            console.log('Adding track:', track);  // Log the track being added
             const response = await addTrack(track.playlistId, track.artist, track.name, track.id);
-            console.log('Track added to playlist response:', response);  // Log the response from the API
-    
             if (response && response.playlist) {
-                console.log('Updating playlist state with:', response.playlist);  // Log before updating the state
-                setPlaylist(response.playlist); // Set the updated playlist directly from the response
-                console.log('Updated Playlist:', response.playlist);  // Confirm the playlist state is updated
+                setPlaylist(response.playlist);
+            } else {
+                console.error('Failed to add track:', response);
             }
         } catch (err) {
-            console.error('Error adding track:', err.message);
+            console.error('Error adding track:', err);
         }
     };
 
