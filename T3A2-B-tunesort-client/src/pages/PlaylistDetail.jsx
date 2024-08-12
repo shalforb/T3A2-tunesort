@@ -78,20 +78,27 @@ const PlaylistDetail = () => {
         setSortConfig({ key, direction });
     };
 
-    if (loading) return <div>Loading...</div>;
+    // Improved Loading State with Spinner
+    if (loading) return (
+        <div className="flex flex-col justify-center items-center h-screen bg-gray-100">
+            <div className="loader ease-linear rounded-full border-8 border-t-8 border-gray-200 h-24 w-24 mb-4"></div>
+            <p className="text-gray-600 text-lg font-medium">Loading your playlist...</p>
+        </div>
+    );
+
     if (error) return <div>Error: {error}</div>;
 
     return (
-        <div>
+        <div className="transition-opacity duration-500 opacity-100">
             <NavBar />
             
             <div className="flex items-center justify-between w-full mt-4 mb-4 px-0">
                 <div className="flex items-center pl-4">
-                    <MainText mainText={playlist?.name} className="text-4xl font-bold mr-6" /> {/* Add margin-right */}
+                    <MainText mainText={playlist?.name} className="text-4xl font-bold mr-6" />
                 </div>
-                    <div className="flex-grow mx-4 flex justify-center" style={{ maxWidth: '75%' }}>
-                     <SpotifySearch onTrackSelect={handleTrackSelect} accessToken={accessToken} playlistId={id} />
-                    </div>
+                <div className="flex-grow mx-4 flex justify-center" style={{ maxWidth: '75%' }}>
+                    <SpotifySearch onTrackSelect={handleTrackSelect} accessToken={accessToken} playlistId={id} />
+                </div>
                 <div className="flex items-center pr-4">
                     <button
                         onClick={() => navigate('/userhome')}
@@ -106,7 +113,7 @@ const PlaylistDetail = () => {
 
             <table className="min-w-full mt-4 border-collapse border border-gray-300">
                 <thead>
-                    <tr className="bg-[#e1e5d4]"> {/* Subtle stone/earthy green */}
+                    <tr className="bg-[#e1e5d4]">
                         <SortableTableHeader
                             label="Track Name"
                             sortKey="name"
