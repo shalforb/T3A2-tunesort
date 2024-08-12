@@ -35,11 +35,12 @@ const PlaylistDetail = () => {
             await axios.post(`/playlists/${id}`, {
                 trackId: track.id
             });
-            getPlaylistById(id);
+            await getPlaylistById(id); 
         } catch (err) {
             console.error('Error adding track:', err.message);
         }
     };
+    
 
     const handleDeleteTrack = async (trackId) => {
         try {
