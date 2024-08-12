@@ -29,10 +29,11 @@ const PlaylistDetail = () => {
                 console.error('Error fetching Spotify token:', error);
             });
     }, [id]);
+    
     const handleTrackSelect = async (track) => {
         try {
             console.log('Adding track:', track);  // Log the track being added
-            const response = await addTrack(id, track.artist, track.name, track.id);
+            const response = await addTrack(track.playlistId, track.artist, track.name, track.id);
             console.log('Track added to playlist response:', response);  // Log the response from the API
     
             if (response && response.playlist) {
@@ -102,7 +103,7 @@ const PlaylistDetail = () => {
                 
                 {/* Search bar centered */}
                 <div className="flex-grow mx-4">
-                    <SpotifySearch onTrackSelect={handleTrackSelect} accessToken={accessToken} playlistId={id} />
+                <SpotifySearch onTrackSelect={handleTrackSelect} accessToken={accessToken} playlistId={id} />
                 </div>
 
                 {/* Back button on the far right */}

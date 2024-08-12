@@ -1,8 +1,5 @@
-//SpotifySearch.jsx
-
 import React, { useState } from 'react';
 import axios from 'axios';
-import useAddTrack from '../hooks/useAddTrack';
 import { HiOutlineSearch } from 'react-icons/hi';
 
 const SpotifySearch = ({ onTrackSelect, playlistId }) => {
@@ -10,7 +7,6 @@ const SpotifySearch = ({ onTrackSelect, playlistId }) => {
     const [results, setResults] = useState([]);
     const [error, setError] = useState(null);
     const [isClicked, setIsClicked] = useState(false);
-    const { addTrack, loading, error: addTrackError, success } = useAddTrack();
 
     const handleSearch = async () => {
         if (!query.trim()) {
@@ -50,13 +46,13 @@ const SpotifySearch = ({ onTrackSelect, playlistId }) => {
             const trackName = track.name;
             const spotifyId = track.id;
     
-            // Call the onTrackSelect prop instead of directly adding the track
+            // Call the onTrackSelect prop with all necessary data, including playlistId
             if (onTrackSelect) {
-                onTrackSelect({ artist: artistName, name: trackName, id: spotifyId });
+                onTrackSelect({ artist: artistName, name: trackName, id: spotifyId, playlistId });
             }
-            console.log('Track added to playlist:', response);
+            console.log('Track selected:', { artistName, trackName, spotifyId, playlistId });
         } catch (error) {
-            console.error('Error adding track to playlist:', error.message);
+            console.error('Error handling track selection:', error.message);
         }
     };
 
