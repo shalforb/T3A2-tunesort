@@ -97,7 +97,7 @@ const searchSpotify = async (req, res) => {
             params: {
                 q: q,
                 type: 'track',
-                limit: 1
+                limit: 5
             },
             headers: {
                 'Authorization': `Bearer ${token}`

@@ -1,5 +1,3 @@
-//PlaylistDetail.jsx
-
 import { useParams, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import NavBar from "../components/NavBar";
@@ -87,9 +85,9 @@ const PlaylistDetail = () => {
             <NavBar />
             
             {/* Container for the title, search bar, and back button */}
-            <div className="flex items-center justify-between w-full max-w-7xl mx-auto mt-4 mb-2 px-4">
-                {/* Playlist Title on the far left */}
-                <h1 className="text-2xl font-bold flex-shrink-0">{playlist?.name}</h1>
+            <div className="flex items-center justify-between w-full max-w-7xl mx-auto mt-4 mb-4 px-4">
+                {/* Playlist Title */}
+                <h1 className="text-4xl font-bold flex-shrink-0">{playlist?.name}</h1>
                 
                 {/* Search bar centered */}
                 <div className="flex-grow mx-4">
@@ -105,9 +103,17 @@ const PlaylistDetail = () => {
                 </button>
             </div>
 
+            <hr className="border-t-2 border-gray-200 my-4" /> {/* Divider */}
+
             <table className="min-w-full mt-4 border-collapse border border-gray-300">
                 <thead>
-                    <tr>
+                    <tr className="bg-[#e0e0e0]">
+                        <SortableTableHeader
+                            label="#"
+                            sortKey="index"
+                            sortConfig={sortConfig}
+                            requestSort={requestSort}
+                        />
                         <SortableTableHeader
                             label="Track Name"
                             sortKey="name"
@@ -121,26 +127,8 @@ const PlaylistDetail = () => {
                             requestSort={requestSort}
                         />
                         <SortableTableHeader
-                            label="Acousticness"
-                            sortKey="acousticness"
-                            sortConfig={sortConfig}
-                            requestSort={requestSort}
-                        />
-                        <SortableTableHeader
-                            label="Danceability"
-                            sortKey="danceability"
-                            sortConfig={sortConfig}
-                            requestSort={requestSort}
-                        />
-                        <SortableTableHeader
-                            label="Energy"
-                            sortKey="energy"
-                            sortConfig={sortConfig}
-                            requestSort={requestSort}
-                        />
-                        <SortableTableHeader
-                            label="Key"
-                            sortKey="key"
+                            label="BPM"
+                            sortKey="tempo"
                             sortConfig={sortConfig}
                             requestSort={requestSort}
                         />
@@ -151,25 +139,32 @@ const PlaylistDetail = () => {
                             requestSort={requestSort}
                         />
                         <SortableTableHeader
-                            label="Tempo"
-                            sortKey="tempo"
+                            label="Key"
+                            sortKey="key"
                             sortConfig={sortConfig}
                             requestSort={requestSort}
                         />
-                        <th className="border border-gray-300 p-2">Actions</th>
+                        <SortableTableHeader
+                            label="Energy"
+                            sortKey="energy"
+                            sortConfig={sortConfig}
+                            requestSort={requestSort}
+                        />
+                        <SortableTableHeader
+                            label="Actions"
+                        />
                     </tr>
                 </thead>
                 <tbody>
                     {sortedTracks.map((track, index) => (
-                        <tr key={index}>
+                        <tr key={index} className={`odd:bg-white even:bg-gray-100`}>
+                            <td className="border border-gray-300 p-2 text-center">{index + 1}</td>
                             <td className="border border-gray-300 p-2">{track.name}</td>
                             <td className="border border-gray-300 p-2">{track.artist}</td>
-                            <td className="border border-gray-300 p-2">{track.acousticness}</td>
-                            <td className="border border-gray-300 p-2">{track.danceability}</td>
-                            <td className="border border-gray-300 p-2">{track.energy}</td>
-                            <td className="border border-gray-300 p-2">{track.key}</td>
-                            <td className="border border-gray-300 p-2">{track.camelot}</td>
-                            <td className="border border-gray-300 p-2">{track.tempo}</td>
+                            <td className="border border-gray-300 p-2 text-center">{track.tempo}</td>
+                            <td className="border border-gray-300 p-2 text-center">{track.camelot}</td>
+                            <td className="border border-gray-300 p-2 text-center">{track.key}</td>
+                            <td className="border border-gray-300 p-2 text-center">{track.energy}</td>
                             <td className="border border-gray-300 p-2 text-center">
                                 <button 
                                     onClick={() => handleDeleteTrack(track.spotifyId)} 
