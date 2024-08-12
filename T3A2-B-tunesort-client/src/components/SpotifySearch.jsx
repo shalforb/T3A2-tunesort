@@ -49,8 +49,11 @@ const SpotifySearch = ({ onTrackSelect, playlistId }) => {
             const artistName = track.artists.map(artist => artist.name).join(', ');
             const trackName = track.name;
             const spotifyId = track.id;
-
-            const response = await addTrack(playlistId, artistName, trackName, spotifyId);
+    
+            // Call the onTrackSelect prop instead of directly adding the track
+            if (onTrackSelect) {
+                onTrackSelect({ artist: artistName, name: trackName, id: spotifyId });
+            }
             console.log('Track added to playlist:', response);
         } catch (error) {
             console.error('Error adding track to playlist:', error.message);
