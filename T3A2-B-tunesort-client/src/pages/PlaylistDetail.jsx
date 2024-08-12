@@ -29,13 +29,16 @@ const PlaylistDetail = () => {
                 console.error('Error fetching Spotify token:', error);
             });
     }, [id]);
-
     const handleTrackSelect = async (track) => {
         try {
+            console.log('Adding track:', track);  // Log the track being added
             const response = await addTrack(id, track.artist, track.name, track.id);
+            console.log('Track added to playlist response:', response);  // Log the response from the API
+    
             if (response && response.playlist) {
-                setPlaylist(response.playlist); // This will update the playlist with the new track
-                console.log('Updated Playlist:', response.playlist); // Log the updated playlist to ensure it's correct
+                console.log('Updating playlist state with:', response.playlist);  // Log before updating the state
+                setPlaylist(response.playlist); // Set the updated playlist directly from the response
+                console.log('Updated Playlist:', response.playlist);  // Confirm the playlist state is updated
             }
         } catch (err) {
             console.error('Error adding track:', err.message);
