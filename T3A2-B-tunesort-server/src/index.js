@@ -13,10 +13,10 @@ const PORT = process.env.PORT || 5001;
 
 // CORS Configuration
 const corsOptions = {
-  origin: 'https://t3-a2-tunesort-client.vercel.app', // Frontend URL
+  origin: process.env.VITE_SERVER_BASE_URL,
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'Spotify-Authorization'],
-  credentials: true, // If you need to send cookies or authentication headers
+  credentials: true, 
 };
 
 // Apply CORS Middleware

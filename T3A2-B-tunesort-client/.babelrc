@@ -1,0 +1,10 @@
+{
+    "presets": ["@babel/preset-env", "@babel/preset-react"],
+    "plugins": [
+      ["babel-plugin-transform-import-meta", {
+        "env": {
+          "VITE_SERVER_BASE_URL": "http://localhost:5173" // Replace with your actual base URL
+        }
+      }]
+    ]
+  }

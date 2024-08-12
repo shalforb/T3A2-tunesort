@@ -1,4 +1,3 @@
-// models/Playlist.js
 const mongoose = require('mongoose');
 
 const trackSchema = new mongoose.Schema({
@@ -7,8 +6,8 @@ const trackSchema = new mongoose.Schema({
     acousticness: Number,
     danceability: Number,
     energy: Number,
-    key: String, // Changed from Number to String
-    camelot: String, // Store the Camelot value as a String
+    key: String, 
+    camelot: String, 
     tempo: Number,
     spotifyId: String
 });
