@@ -69,11 +69,11 @@ function UserHome() {
     };
 
     return (
-        <div className="min-h-screen flex flex-col">
+        <div className="min-h-screen flex flex-col relative">
             <NavBar />
             <div className="px-10 mt-8">
                 <div className="flex justify-between items-center mb-4">
-                    <div className="flex items-center">
+                    <div className="flex items-center relative">
                         <MainText mainText="Your Playlists" className="text-[32px] md:text-[48px]" />
                         <Button onClick={handleButtonClick} className="text-4xl md:text-5xl text-gray-600 hover:text-gray-800 ml-4">
                             <IoIosAddCircleOutline />
@@ -97,20 +97,20 @@ function UserHome() {
                         )}
                     </div>
                 </div>
-                <hr className="border-t-2 border-gray-200 my-4" /> {/* Divider */}
+                <hr className="border-t-2 border-gray-200 my-4" /> 
             </div>
             <div className="flex-grow grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 px-10 pb-8">
                 {playlists.map((playlist) => (
                     <div
                         key={playlist._id}
-                        className="bg-[#f0f0f0] h-48 p-6 rounded-lg shadow-md cursor-pointer text-center relative hover:shadow-lg group flex items-center justify-center"
+                        className="bg-[#f0f0f0] h-64 p-6 rounded-lg shadow-md cursor-pointer text-center relative hover:shadow-lg group flex items-center justify-center"
                         onClick={() => handleCardClick(playlist._id)}
                     >
                         <h3 className="text-xl font-semibold">{playlist.name}</h3>
                         <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
                             <Button
                                 onClick={(e) => {
-                                    e.stopPropagation(); // Prevents triggering the card click
+                                    e.stopPropagation(); 
                                     handleDelete(playlist._id);
                                 }}
                                 className="text-red-600 hover:text-red-800"
@@ -121,6 +121,15 @@ function UserHome() {
                     </div>
                 ))}
             </div>
+
+            {playlists.length === 0 && (
+                <div className="absolute top-16 left-1/2 transform -translate-x-1/2 bg-white text-gray-700 border border-gray-300 rounded-lg p-4 shadow-lg z-10">
+                    <p className="text-center text-sm">Click here to make your first playlist</p>
+                    <div className="absolute top-2 left-1/2 transform -translate-x-1/2 animate-bounce">
+                        <IoIosAddCircleOutline size={32} className="text-gray-600" />
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
