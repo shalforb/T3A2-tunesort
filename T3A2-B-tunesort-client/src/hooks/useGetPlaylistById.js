@@ -5,13 +5,11 @@ import { useState } from 'react';
 const useGetPlaylistById = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-    const [playlist, setPlaylist] = useState(null); // Expose setPlaylist
+    const [playlist, setPlaylist] = useState(null);
 
     const getPlaylistById = async (id) => {
         setLoading(true);
         setError(null);
-
-        console.time('getPlaylistById'); // Start timing the API call
 
         try {
             const token = localStorage.getItem('token');
@@ -33,13 +31,10 @@ const useGetPlaylistById = () => {
             setError(error.message);
         } finally {
             setLoading(false);
-            console.timeEnd('getPlaylistById'); // End timing the API call
         }
     };
 
-    return { getPlaylistById, playlist, loading, error, setPlaylist }; // Return setPlaylist
+    return { getPlaylistById, playlist, loading, error };
 };
 
 export default useGetPlaylistById;
-
-//
