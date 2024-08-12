@@ -100,7 +100,7 @@ function UserHome() {
                 {playlists.map((playlist) => (
                     <div
                         key={playlist._id}
-                        className="bg-[#FAF9F6] p-6 rounded-lg shadow-md cursor-pointer text-center relative hover:shadow-lg group"
+                        className="bg-[#f0f0f0] h-48 p-6 rounded-lg shadow-md cursor-pointer text-center relative hover:shadow-lg group flex items-center justify-center"
                         onClick={() => handleCardClick(playlist._id)}
                     >
                         <h3 className="text-xl font-semibold">{playlist.name}</h3>
