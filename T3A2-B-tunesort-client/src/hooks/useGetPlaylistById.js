@@ -11,6 +11,8 @@ const useGetPlaylistById = () => {
         setLoading(true);
         setError(null);
 
+        console.time('getPlaylistById'); // Start timing the API call
+
         try {
             const token = localStorage.getItem('token');
             const response = await fetch(`${import.meta.env.VITE_SERVER_BASE_URL}/playlists/details/${id}`, {
@@ -31,6 +33,7 @@ const useGetPlaylistById = () => {
             setError(error.message);
         } finally {
             setLoading(false);
+            console.timeEnd('getPlaylistById'); // End timing the API call
         }
     };
 
