@@ -1,5 +1,3 @@
-//UserHome.jsx
-
 import { useEffect, useState } from 'react';
 import MainText from '../components/MainText';
 import NavBar from "../components/NavBar";
@@ -9,7 +7,7 @@ import useCreatePlaylist from "../hooks/useCreatePlaylist";
 import useGetUserPlaylists from '../hooks/useGetUserPlaylists';
 import useDeletePlaylist from '../hooks/useDeletePlaylist';
 import { useNavigate } from 'react-router-dom';
-import { IoIosAddCircleOutline, IoMdTrash, IoIosRefresh } from "react-icons/io";
+import { IoIosAddCircleOutline, IoMdTrash } from "react-icons/io";
 
 function UserHome() {
     const [isFormVisible, setIsFormVisible] = useState(false);
@@ -50,7 +48,6 @@ function UserHome() {
             }
         }
     };
-    
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -71,41 +68,35 @@ function UserHome() {
         setIsFormVisible(false);
     };
 
-    const handleLinkSpotify = () => {
-        window.location.href = `${import.meta.env.VITE_SERVER_BASE_URL}/spotify/authorize`;
-    };
-
     return (
-        <div>
+        <div className="min-h-screen flex flex-col">
             <NavBar />
-            <div className="flex justify-between items-center px-10 mt-8 mb-4">
-                <div className="flex items-center">
-                    <MainText mainText="Your Playlists" className="text-[64px] inline-block" />
-                    <Button onClick={handleButtonClick} className="text-5xl text-gray-600 hover:text-gray-800 ml-4">
-                        <IoIosAddCircleOutline />
-                    </Button>
+            <div className="px-10 mt-8">
+                <div className="flex justify-between items-center mb-4">
+                    <div className="flex items-center">
+                        <MainText mainText="Your Playlists" className="text-[32px] md:text-[48px]" />
+                        <Button onClick={handleButtonClick} className="text-4xl md:text-5xl text-gray-600 hover:text-gray-800 ml-4">
+                            <IoIosAddCircleOutline />
+                        </Button>
+                    </div>
+                    {isFormVisible && (
+                        <form onSubmit={handleSubmit} className="ml-4 flex items-center">
+                            <input
+                                type="text"
+                                value={playlistName}
+                                onChange={(e) => setPlaylistName(e.target.value)}
+                                placeholder="Enter playlist name"
+                                className="border p-2 rounded-md"
+                            />
+                            <button type="submit" className="ml-2 p-2 bg-blue-500 text-white rounded-md">
+                                Submit
+                            </button>
+                        </form>
+                    )}
                 </div>
-                <div className="flex items-center">
-                    <Button onClick={handleLinkSpotify} className="text-5xl text-gray-600 hover:text-gray-800">
-                        <IoIosRefresh />
-                    </Button>
-                </div>
-                {isFormVisible && (
-                    <form onSubmit={handleSubmit} className="ml-4 flex items-center">
-                        <input
-                            type="text"
-                            value={playlistName}
-                            onChange={(e) => setPlaylistName(e.target.value)}
-                            placeholder="Enter playlist name"
-                            className="border p-2 rounded-md"
-                        />
-                        <button type="submit" className="ml-2 p-2 bg-blue-500 text-white rounded-md">
-                            Submit
-                        </button>
-                    </form>
-                )}
+                <hr className="border-t-2 border-gray-200 my-4" /> {/* Divider */}
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 px-10">
+            <div className="flex-grow grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 px-10 pb-8">
                 {playlists.map((playlist) => (
                     <div
                         key={playlist._id}
