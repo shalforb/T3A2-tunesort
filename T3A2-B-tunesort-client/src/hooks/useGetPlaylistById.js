@@ -5,7 +5,7 @@ import { useState } from 'react';
 const useGetPlaylistById = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-    const [playlist, setPlaylist] = useState(null);
+    const [playlist, setPlaylist] = useState(null); // Expose setPlaylist
 
     const getPlaylistById = async (id) => {
         setLoading(true);
@@ -34,7 +34,7 @@ const useGetPlaylistById = () => {
         }
     };
 
-    return { getPlaylistById, playlist, loading, error };
+    return { getPlaylistById, playlist, loading, error, setPlaylist }; // Return setPlaylist
 };
 
 export default useGetPlaylistById;

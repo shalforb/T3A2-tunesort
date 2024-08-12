@@ -3,52 +3,42 @@ import { useEffect, useState } from 'react';
 import NavBar from "../components/NavBar";
 import useGetPlaylistById from '../hooks/useGetPlaylistById';
 import SpotifySearch from '../components/SpotifySearch';
+import axios from 'axios';
 import SortableTableHeader from '../components/SortableTableHeader';
 import useDeleteTrack from '../hooks/useDeleteTrack';
 import { HiOutlineTrash, HiArrowLeft } from 'react-icons/hi';
+import useAddTrack from '../hooks/useAddTrack'; // Import the useAddTrack hook
 
 const PlaylistDetail = () => {
     const { id } = useParams();
     const navigate = useNavigate(); 
-
-    // State for the playlist data
-    const [playlist, setPlaylist] = useState(null);
+    const { getPlaylistById, playlist, loading, error, setPlaylist } = useGetPlaylistById(); // Added setPlaylist to update the playlist
+    const [accessToken, setAccessToken] = useState(null);
     const [sortConfig, setSortConfig] = useState({ key: 'name', direction: 'ascending' });
-
-    const { getPlaylistById, loading, error } = useGetPlaylistById();
     const { deleteTrack } = useDeleteTrack();
+    const { addTrack } = useAddTrack(); // Use the addTrack function from the useAddTrack hook
 
     useEffect(() => {
-        const fetchPlaylist = async () => {
-            try {
-                const fetchedPlaylist = await getPlaylistById(id);
-                setPlaylist(fetchedPlaylist);  // Set the playlist state
-            } catch (err) {
-                console.error('Error fetching playlist:', err);
-            }
-        };
+        getPlaylistById(id);
 
-        fetchPlaylist();
-    }, [id, getPlaylistById]);
+        axios.get('/spotify/token')
+            .then(response => {
+                setAccessToken(response.data.access_token);
+            })
+            .catch(error => {
+                console.error('Error fetching Spotify token:', error);
+            });
+    }, [id]);
 
     const handleTrackSelect = async (track) => {
         try {
-            await axios.post(`/playlists/${id}/tracks`, {
-                trackId: track.id
-            });
-
-            // Manually add the track to the playlist state
-            const newTrack = {
-                name: track.name,
-                artist: track.artists.map(artist => artist.name).join(', '),
-                spotifyId: track.id,
-                // Add other properties if needed
-            };
-
-            setPlaylist(prevPlaylist => ({
-                ...prevPlaylist,
-                tracks: [...prevPlaylist.tracks, newTrack]
-            }));
+            const newTrack = await addTrack(id, track.artist, track.name, track.id);
+            if (newTrack) {
+                setPlaylist(prevPlaylist => ({
+                    ...prevPlaylist,
+                    tracks: [...prevPlaylist.tracks, newTrack] // Append the new track to the current tracks
+                }));
+            }
         } catch (err) {
             console.error('Error adding track:', err.message);
         }
@@ -56,13 +46,13 @@ const PlaylistDetail = () => {
 
     const handleDeleteTrack = async (trackId) => {
         try {
-            await deleteTrack(id, trackId);
-
-            // Update the playlist state by removing the deleted track
-            setPlaylist(prevPlaylist => ({
-                ...prevPlaylist,
-                tracks: prevPlaylist.tracks.filter(track => track.spotifyId !== trackId)
-            }));
+            const deletedTrack = await deleteTrack(id, trackId);
+            if (deletedTrack) {
+                setPlaylist(prevPlaylist => ({
+                    ...prevPlaylist,
+                    tracks: prevPlaylist.tracks.filter(track => track.spotifyId !== trackId) // Remove the deleted track
+                }));
+            }
         } catch (err) {
             console.error('Error deleting track:', err.message);
         }
@@ -106,12 +96,15 @@ const PlaylistDetail = () => {
             
             {/* Container for the title, search bar, and back button */}
             <div className="flex items-center justify-between w-full max-w-7xl mx-auto mt-4 mb-2 px-4">
+                {/* Playlist Title on the far left */}
                 <h1 className="text-2xl font-bold flex-shrink-0">{playlist?.name}</h1>
                 
+                {/* Search bar centered */}
                 <div className="flex-grow mx-4">
-                    <SpotifySearch onTrackSelect={handleTrackSelect} playlistId={id} />
+                    <SpotifySearch onTrackSelect={handleTrackSelect} accessToken={accessToken} playlistId={id} />
                 </div>
 
+                {/* Back button on the far right */}
                 <button
                     onClick={() => navigate('/userhome')}
                     className="p-2 rounded-full transition-colors focus:outline-none flex-shrink-0"
