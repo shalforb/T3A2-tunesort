@@ -18,6 +18,7 @@ const useAddTrack = () => {
 
         try {
             const res = await fetch(`${import.meta.env.VITE_SERVER_BASE_URL}/playlists/addTrack`, {
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${jwtToken}`, // Include the JWT token here

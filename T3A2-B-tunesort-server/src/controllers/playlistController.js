@@ -165,6 +165,7 @@ const deleteTrack = async (req, res) => {
         res.status(500).json({ message: 'Error deleting track from playlist', error: error.message });
     }
 };
+
 const deletePlaylist = async (req, res) => {
     try {
         const { id } = req.params;
