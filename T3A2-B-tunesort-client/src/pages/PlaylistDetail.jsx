@@ -85,9 +85,9 @@ const PlaylistDetail = () => {
         <div>
             <NavBar />
             
-            <div className="flex justify-between w-full max-w-7xl mx-auto mt-4 mb-4 px-4">
+            <div className="flex justify-between items-center w-full mt-4 mb-4 px-0"> {/* Removed padding */}
                 {/* Align title to the left */}
-                <div className="flex items-center">
+                <div className="flex items-center pl-4">
                     <MainText mainText={playlist?.name} className="text-4xl font-bold" />
                 </div>
                 
@@ -97,7 +97,7 @@ const PlaylistDetail = () => {
                 </div>
 
                 {/* Align back button to the right */}
-                <div className="flex items-center justify-end">
+                <div className="flex items-center pr-4">
                     <button
                         onClick={() => navigate('/userhome')}
                         className="p-2 rounded-full transition-colors focus:outline-none"
